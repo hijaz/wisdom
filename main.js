@@ -19,11 +19,10 @@ let flyModeActive = false;
 let startTime = 0;
 const travelTime = 60 * 1000; // Travel time in milliseconds
 const changeTargetTime = 30 * 1000; // Change target every 30 seconds
-let isMouseDown = false;
 
-// Set up initial camera position for explore mode
-const exploreDistance = 100;
-const exploreCenter = new THREE.Vector3(0, 0, 0);
+// Create a group for the orbs
+const orbGroup = new THREE.Group();
+scene.add(orbGroup);
 
 // For raycasting
 const raycaster = new THREE.Raycaster();
@@ -72,7 +71,7 @@ fetch('orbs_data_with_colors.json')
 
             // Apply scaling factor to spread out the orbs
             sphere.position.set(orb.x * scalingFactor, orb.y * scalingFactor, orb.z * scalingFactor);
-            scene.add(sphere);
+            orbGroup.add(sphere);
 
             orbMetadata[sphere.id] = {
                 sentence: orb.sentence,
@@ -108,29 +107,52 @@ function startFlyMode() {
 function startExploreMode() {
     flyModeActive = false;
 
-    camera.position.set(exploreCenter.x, exploreCenter.y, exploreCenter.z + exploreDistance);
-    camera.lookAt(exploreCenter);
+    camera.position.set(0, 0, 100); // Set camera position for explore mode
+    camera.lookAt(0, 0, 0); // Point camera at the center
+
+    let isDragging = false;
+    let previousMousePosition = {
+        x: 0,
+        y: 0
+    };
 
     document.addEventListener('mousedown', function (event) {
         if (event.button === 0) { // Left mouse button
-            isMouseDown = true;
+            isDragging = true;
+            previousMousePosition = {
+                x: event.clientX,
+                y: event.clientY
+            };
         }
     }, false);
 
     document.addEventListener('mouseup', function (event) {
         if (event.button === 0) { // Left mouse button
-            isMouseDown = false;
+            isDragging = false;
         }
     }, false);
 
     document.addEventListener('mousemove', function (event) {
-        if (isMouseDown) {
-            const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-            const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+        if (isDragging) {
+            const deltaMove = {
+                x: event.clientX - previousMousePosition.x,
+                y: event.clientY - previousMousePosition.y
+            };
 
-            camera.rotation.y -= movementX * 0.002;
-            camera.rotation.x -= movementY * 0.002;
-            camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+            const deltaRotationQuaternion = new THREE.Quaternion()
+                .setFromEuler(new THREE.Euler(
+                    toRadians(deltaMove.y * 1),
+                    toRadians(deltaMove.x * 1),
+                    0,
+                    'XYZ'
+                ));
+
+            orbGroup.quaternion.multiplyQuaternions(deltaRotationQuaternion, orbGroup.quaternion);
+
+            previousMousePosition = {
+                x: event.clientX,
+                y: event.clientY
+            };
         }
     }, false);
 }
@@ -138,6 +160,10 @@ function startExploreMode() {
 function chooseNextTargetOrb() {
     currentTargetOrb = orbs[Math.floor(Math.random() * orbs.length)];
     startTime = Date.now();
+}
+
+function toRadians(angle) {
+    return angle * (Math.PI / 180);
 }
 
 // Mouse move event listener for raycasting
