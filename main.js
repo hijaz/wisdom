@@ -37,6 +37,8 @@ flyModeButton.addEventListener('click', function () {
     isFlyMode = true;
     flyModeButton.style.backgroundColor = 'lightblue';
     exploreModeButton.style.backgroundColor = 'white';
+    zoomInButton.style.display = 'none';
+    zoomOutButton.style.display = 'none';
     startFlyMode();
 });
 
@@ -44,6 +46,8 @@ exploreModeButton.addEventListener('click', function () {
     isFlyMode = false;
     flyModeButton.style.backgroundColor = 'white';
     exploreModeButton.style.backgroundColor = 'lightblue';
+    zoomInButton.style.display = 'block';
+    zoomOutButton.style.display = 'block';
     startExploreMode();
 });
 
