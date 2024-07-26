@@ -133,7 +133,7 @@ fetch('orbs_data_with_colors.json')
                 sentence: orb.sentence,
                 title: orb.title,
                 author: orb.author,
-                imageUrl: orb.imageUrl
+                imagePath: orb.imagePath
             }; // Store metadata
 
             return sphere;
@@ -309,7 +309,7 @@ function updateMetadataDisplay() {
     const latestMetadata = metadataArray[metadataArray.length - 1];
     metadataDiv.innerHTML = `
         <div class="metadata-item">
-            <img src="${latestMetadata.imageUrl}" alt="Book Cover">
+            <img src="${latestMetadata.imagePath}" alt="Book Cover">
             <div class="text">
                 <div class="advice">${latestMetadata.sentence}</div>
                 <div class="book-title">${latestMetadata.title}</div>
@@ -337,7 +337,7 @@ function populateLogModal() {
         item.style.top = `${index * itemHeight}px`; // Adjust based on your item height
         item.innerHTML = `
             <div class="metadata-item">
-                <img src="${data.imageUrl}" alt="Book Cover">
+                <img src="${data.imagePath}" alt="Book Cover">
                 <div class="text">
                     <div class="advice">${data.sentence}</div>
                     <div class="book-title">${data.title}</div>
