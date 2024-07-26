@@ -25,7 +25,7 @@ let currentTargetOrb = null;
 let flyModeActive = false;
 let startTime = 0;
 const travelTime = 60 * 1000; // Travel time in milliseconds
-const changeTargetTime = 30 * 1000; // Change target every 30 seconds
+const changeTargetTime = 15 * 1000; // Change target every 15 seconds
 let metadataSet = new Set(); // Set to store unique metadata messages
 let metadataArray = []; // Array to store metadata messages
 
@@ -36,6 +36,10 @@ scene.add(orbGroup);
 // For raycasting
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
+
+// Add background music
+const backgroundMusic = new Audio('background_music.mp3');
+backgroundMusic.loop = true;
 
 function initializeEventListeners() {
     instructions.addEventListener('click', function () {
@@ -141,10 +145,12 @@ scene.add(directionalLight);
 function startFlyMode() {
     flyModeActive = true;
     chooseNextTargetOrb();
+    backgroundMusic.play();
 }
 
 function startExploreMode() {
     flyModeActive = false;
+    backgroundMusic.pause();
 
     camera.position.set(0, 0, 100); // Set camera position for explore mode
     camera.lookAt(0, 0, 0); // Point camera at the center
@@ -275,7 +281,7 @@ function populateAboutModal() {
             <h2>Wisdom</h2>
             <p>This project visualizes thousands of suggestions from over 1200 productivity and self-improvement books in a 3D map based on their similarity.</p>
             <h3>How to Use</h3>
-            <p><strong>Fly Mode:</strong> The camera automatically navigates through the orbs             , focusing on different pieces of advice every 30 seconds.</p>
+            <p><strong>Fly Mode:</strong> The camera automatically navigates through the orbs, focusing on different pieces of advice every 15 seconds.</p>
             <p><strong>Explore Mode:</strong> You can manually navigate the 3D space. Click and drag to rotate the view. Use the zoom in/out buttons to adjust the view.</p>
             <p><strong>Log:</strong> Opens a modal displaying all unique pieces of advice you have encountered so far.</p>
         </div>
@@ -298,7 +304,7 @@ function animate() {
         camera.lookAt(targetPosition);
 
         if (elapsedTime >= changeTargetTime) {
-            chooseNextTargetOrb(); // Choose a new target every 30 seconds
+            chooseNextTargetOrb(); // Choose a new target every 15 seconds
         }
     }
 
