@@ -4,55 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Orbs Visualization with FPS Controls</title>
-    <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
-        #instructions {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Arial, sans-serif;
-            font-size: 24px;
-            color: #ffffff;
-            background-color: rgba(0, 0, 0, 0.75);
-            z-index: 1;
-            cursor: pointer;
-        }
-        #blocker {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
-            z-index: 1;
-        }
-        #flyModeButton, #exploreModeButton, #zoomInButton, #zoomOutButton {
-            position: absolute;
-            top: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: white;
-            border: 1px solid black;
-        }
-        #flyModeButton { left: 10px; }
-        #exploreModeButton { left: 150px; }
-        #zoomInButton { right: 80px; }
-        #zoomOutButton { right: 10px; }
-        #metadata {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.75);
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div id="blocker">
@@ -60,11 +13,22 @@
             Click to play
         </div>
     </div>
-    <button id="flyModeButton">Fly Mode</button>
-    <button id="exploreModeButton">Explore Mode</button>
-    <button id="zoomInButton">Zoom In</button>
-    <button id="zoomOutButton">Zoom Out</button>
+    <button id="flyModeButton"><i class="fas fa-plane"></i></button>
+    <button id="exploreModeButton" disabled><i class="fas fa-search"></i></button>
+    <button id="zoomInButton" style="display:none;"><i class="fas fa-search-plus"></i></button>
+    <button id="zoomOutButton" style="display:none;"><i class="fas fa-search-minus"></i></button>
+    <button id="logButton"><i class="fas fa-book"></i> Log</button>
+    <button id="aboutButton"><i class="fas fa-info-circle"></i> About / How to Use</button>
     <div id="metadata"></div>
+    <div id="logModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="logContent"></div>
+        </div>
+    </div>
+    <div id="aboutModal" class="modal">
+        <!-- Modal content populated dynamically in JS -->
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="main.js"></script>
 </body>

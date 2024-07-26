@@ -11,7 +11,14 @@ const flyModeButton = document.getElementById('flyModeButton');
 const exploreModeButton = document.getElementById('exploreModeButton');
 const zoomInButton = document.getElementById('zoomInButton');
 const zoomOutButton = document.getElementById('zoomOutButton');
+const logButton = document.getElementById('logButton');
+const aboutButton = document.getElementById('aboutButton');
 const metadataDiv = document.getElementById('metadata');
+const logModal = document.getElementById('logModal');
+const logContent = document.getElementById('logContent');
+const aboutModal = document.getElementById('aboutModal');
+const closeLogSpan = document.getElementsByClassName('close')[0];
+const closeAboutSpan = document.getElementsByClassName('close')[1];
 
 let isFlyMode = true; // Default to fly mode
 let currentTargetOrb = null;
@@ -19,6 +26,8 @@ let flyModeActive = false;
 let startTime = 0;
 const travelTime = 60 * 1000; // Travel time in milliseconds
 const changeTargetTime = 30 * 1000; // Change target every 30 seconds
+let metadataSet = new Set(); // Set to store unique metadata messages
+let metadataArray = []; // Array to store metadata messages
 
 // Create a group for the orbs
 const orbGroup = new THREE.Group();
@@ -28,36 +37,60 @@ scene.add(orbGroup);
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-instructions.addEventListener('click', function () {
-    blocker.style.display = 'none';
-    startFlyMode();
-}, false);
+function initializeEventListeners() {
+    instructions.addEventListener('click', function () {
+        blocker.style.display = 'none';
+        startFlyMode();
+    }, false);
 
-flyModeButton.addEventListener('click', function () {
-    isFlyMode = true;
-    flyModeButton.style.backgroundColor = 'lightblue';
-    exploreModeButton.style.backgroundColor = 'white';
-    zoomInButton.style.display = 'none';
-    zoomOutButton.style.display = 'none';
-    startFlyMode();
-});
+    flyModeButton.addEventListener('click', function () {
+        isFlyMode = true;
+        flyModeButton.disabled = true;
+        exploreModeButton.disabled = false;
+        startFlyMode();
+    });
 
-exploreModeButton.addEventListener('click', function () {
-    isFlyMode = false;
-    flyModeButton.style.backgroundColor = 'white';
-    exploreModeButton.style.backgroundColor = 'lightblue';
-    zoomInButton.style.display = 'block';
-    zoomOutButton.style.display = 'block';
-    startExploreMode();
-});
+    exploreModeButton.addEventListener('click', function () {
+        isFlyMode = false;
+        flyModeButton.disabled = false;
+        exploreModeButton.disabled = true;
+        startExploreMode();
+    });
 
-zoomInButton.addEventListener('click', function () {
-    camera.position.z -= 10;
-});
+    zoomInButton.addEventListener('click', function () {
+        camera.position.z -= 10;
+    });
 
-zoomOutButton.addEventListener('click', function () {
-    camera.position.z += 10;
-});
+    zoomOutButton.addEventListener('click', function () {
+        camera.position.z += 10;
+    });
+
+    logButton.addEventListener('click', function () {
+        logModal.style.display = 'block';
+        populateLogModal();
+    });
+
+    aboutButton.addEventListener('click', function () {
+        aboutModal.style.display = 'block';
+    });
+
+    closeLogSpan.addEventListener('click', function () {
+        logModal.style.display = 'none';
+    });
+
+    closeAboutSpan.addEventListener('click', function () {
+        aboutModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target === logModal) {
+            logModal.style.display = 'none';
+        }
+        if (event.target === aboutModal) {
+            aboutModal.style.display = 'none';
+        }
+    });
+}
 
 // Scaling factor to spread out the orbs
 const scalingFactor = 10;
@@ -86,6 +119,8 @@ fetch('orbs_data_with_colors.json')
 
             return sphere;
         });
+
+        initializeEventListeners();
 
         if (isFlyMode) {
             startFlyMode();
@@ -181,21 +216,70 @@ function onMouseMove(event) {
 
     raycaster.setFromCamera(mouse, camera);
 
-    const intersects = raycaster.intersectObjects(orbs);
+    const intersects = raycaster.intersectObjects(orbGroup.children);
 
     if (intersects.length > 0) {
         const intersectedOrb = intersects[0].object;
         const metadata = orbMetadata[intersectedOrb.id];
-        metadataDiv.innerHTML = `
-            <strong>Advice:</strong> ${metadata.sentence}<br>
-            <strong>Book Title:</strong> ${metadata.title}<br>
-            <strong>Author:</strong> ${metadata.author}<br>
-            <img src="${metadata.imageUrl}" alt="Book Cover" style="width:50px;height:auto;">
-        `;
-        metadataDiv.style.display = 'block';
-    } else {
-        metadataDiv.style.display = 'none';
+
+        // Add unique metadata to the set and update the display
+        if (!metadataSet.has(metadata.sentence)) {
+            metadataSet.add(metadata.sentence);
+            metadataArray.push(metadata);
+            updateMetadataDisplay();
+
+            metadataDiv.style.display = 'block';
+        }
     }
+}
+
+// Update metadata display
+function updateMetadataDisplay() {
+    const latestMetadata = metadataArray[metadataArray.length - 1];
+    metadataDiv.innerHTML = `
+        <div class="metadata-item">
+            <img src="${latestMetadata.imageUrl}" alt="Book Cover">
+            <div class="text">
+                <div class="advice">${latestMetadata.sentence}</div>
+                <div class="book-title">${latestMetadata.title}</div>
+                <div class="author">${latestMetadata.author}</div>
+            </div>
+        </div>
+    `;
+}
+
+// Populate log modal with all unique metadata
+function populateLogModal() {
+    let logHTML = '';
+    metadataArray.slice().reverse().forEach(data => {
+        logHTML += `
+            <div class="metadata-item">
+                <img src="${data.imageUrl}" alt="Book Cover">
+                <div class="text">
+                    <div class="advice">${data                    .sentence}</div>
+                    <div class="book-title">${data.title}</div>
+                    <div class="author">${data.author}</div>
+                </div>
+            </div>
+            <hr>
+        `;
+    });
+    logContent.innerHTML = logHTML;
+}
+
+// Populate about modal with project information and instructions
+function populateAboutModal() {
+    aboutModal.innerHTML = `
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Wisdom</h2>
+            <p>This project visualizes thousands of suggestions from over 1200 productivity and self-improvement books in a 3D map based on their similarity.</p>
+            <h3>How to Use</h3>
+            <p><strong>Fly Mode:</strong> The camera automatically navigates through the orbs, focusing on different pieces of advice every 30 seconds.</p>
+            <p><strong>Explore Mode:</strong> You can manually navigate the 3D space. Click and drag to rotate the view. Use the zoom in/out buttons to adjust the view.</p>
+            <p><strong>Log:</strong> Opens a modal displaying all unique pieces of advice you have encountered so far.</p>
+        </div>
+    `;
 }
 
 // Animate
@@ -221,4 +305,6 @@ function animate() {
     renderer.render(scene, camera);
 }
 
+populateAboutModal();
 animate();
+
