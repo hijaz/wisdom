@@ -57,7 +57,7 @@ button:disabled {
 
 #metadata {
     position: absolute;
-    bottom: 102px; /* Adjust to be above the log button */
+    bottom: 50px; /* Adjust to be above the log button */
     left: 10px;
     width: 300px;
     padding: 10px;
@@ -137,4 +137,26 @@ button:disabled {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Media Queries for Mobile and Tablet */
+@media (max-width: 768px) {
+    button {
+        padding: 8px;
+        font-size: 14px;
+    }
+    #flyModeButton { left: 5px; top: 5px; }
+    #exploreModeButton { left: 5px; top: 45px; }
+    #zoomInButton { left: 5px; top: 85px; }
+    #zoomOutButton { left: 55px; top: 85px; }
+    #logButton { left: 5px; bottom: 45px; }
+    #aboutButton { right: 5px; top: 5px; }
+    #metadata {
+        width: 90%;
+        left: 5%;
+        bottom: 55px;
+    }
+    .modal-content {
+        width: 95%;
+    }
 }

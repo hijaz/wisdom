@@ -98,6 +98,16 @@ function initializeEventListeners() {
             aboutModal.style.display = 'none';
         }
     });
+
+    // Touch events for mobile and tablet
+    document.addEventListener('touchstart', function (event) {
+        if (event.touches.length === 1) {
+            const touch = event.touches[0];
+            mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+            handleOrbSelection();
+        }
+    }, false);
 }
 
 // Scaling factor to spread out the orbs
@@ -200,6 +210,49 @@ function startExploreMode() {
             };
         }
     }, false);
+
+    // Touch event handling for rotation
+    document.addEventListener('touchstart', function (event) {
+        if (event.touches.length === 1) {
+            const touch = event.touches[0];
+            isDragging = true;
+            previousMousePosition = {
+                x: touch.clientX,
+                y: touch.clientY
+            };
+        }
+    }, false);
+
+    document.addEventListener('touchend', function (event) {
+        if (event.touches.length === 0) {
+            isDragging = false;
+        }
+    }, false);
+
+    document.addEventListener('touchmove', function (event) {
+        if (isDragging && event.touches.length === 1) {
+            const touch = event.touches[0];
+            const deltaMove = {
+                x: touch.clientX - previousMousePosition.x,
+                y: touch.clientY - previousMousePosition.y
+            };
+
+            const deltaRotationQuaternion = new THREE.Quaternion()
+                .setFromEuler(new THREE.Euler(
+                    toRadians(deltaMove.y * 1),
+                    toRadians(deltaMove.x * 1),
+                    0,
+                    'XYZ'
+                ));
+
+            orbGroup.quaternion.multiplyQuaternions(deltaRotationQuaternion, orbGroup.quaternion);
+
+            previousMousePosition = {
+                x: touch.clientX,
+                y: touch.clientY
+            };
+        }
+    }, false);
 }
 
 function chooseNextTargetOrb() {
@@ -213,13 +266,24 @@ function toRadians(angle) {
 
 // Mouse move event listener for raycasting
 document.addEventListener('mousemove', onMouseMove, false);
+document.addEventListener('touchmove', onMouseMove, false);
 
 function onMouseMove(event) {
     event.preventDefault();
 
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    if (event.touches) {
+        const touch = event.touches[0];
+        mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+    } else {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
 
+    handleOrbSelection();
+}
+
+function handleOrbSelection() {
     raycaster.setFromCamera(mouse, camera);
 
     const intersects = raycaster.intersectObjects(orbGroup.children);
@@ -313,4 +377,3 @@ function animate() {
 
 populateAboutModal();
 animate();
-
