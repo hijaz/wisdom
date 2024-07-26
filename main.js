@@ -36,8 +36,8 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 // Add background music
-const backgroundMusic = new Audio('background_music.mp3');
-backgroundMusic.loop = true;
+// const backgroundMusic = new Audio('background_music.mp3');
+// backgroundMusic.loop = true;
 
 function initializeEventListeners() {
     instructions.addEventListener('click', function () {
@@ -156,12 +156,12 @@ scene.add(directionalLight);
 function startFlyMode() {
     flyModeActive = true;
     chooseNextTargetOrb();
-    backgroundMusic.play();
+    // backgroundMusic.play();
 }
 
 function startExploreMode() {
     flyModeActive = false;
-    backgroundMusic.pause();
+    // backgroundMusic.pause();
 
     camera.position.set(0, 0, 100); // Set camera position for explore mode
     camera.lookAt(0, 0, 0); // Point camera at the center
