@@ -8,6 +8,15 @@ canvas {
     display: block;
 }
 
+#blocker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000; /* Increased z-index */
+    pointer-events: all; /* Ensure blocker intercepts all mouse events */
+}
+
 #instructions {
     position: absolute;
     width: 100%;
@@ -18,17 +27,10 @@ canvas {
     font-size: 24px;
     color: #ffffff;
     background-color: rgba(0, 0, 0, 0.75);
-    z-index: 1;
+    z-index: 1001; /* Increased z-index to be higher than blocker */
     cursor: pointer;
 }
 
-#blocker {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 1;
-}
 
 button {
     position: absolute;
@@ -215,4 +217,16 @@ button:disabled {
 #logContent .metadata-item .text {
     font-family: 'Arial', sans-serif; /* Match with about modal font */
     color: #000000; /* Ensure text is black */
+}
+
+.separator {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0; /* Adjust the margin as needed */
+}
+
+.music-credit {
+    font-size: 12px; /* Very small font size */
+    color: #555; /* Subtle color to differentiate */
+    text-align: right; /* Center align the text */
 }

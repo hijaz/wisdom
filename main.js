@@ -382,7 +382,10 @@ function populateAboutModal() {
     <p><strong>Log:</strong> Opens a modal displaying all the unique pieces of guidance you have come across so far.</p>
     <p>On desktop, hover over an orb to see the associated tip. On mobile, tap the orb to view the tip.</p>
     <p>Created by <a href="https://hassanijaz.com" target="_blank">Hassan Ijaz</a></p>
+    <hr class="separator">
+    <p class="music-credit">Music by <a href="https://pixabay.com/users/lorenzobuczek-16982400/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=179451">LAURENT BUCZEK</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=179451">Pixabay</a></p>
 </div>
+
     `;
 }
 
