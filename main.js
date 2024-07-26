@@ -133,7 +133,7 @@ fetch('orbs_data_with_colors.json')
                 sentence: orb.sentence,
                 title: orb.title,
                 author: orb.author,
-                imagePath: `https://hijaz.github.io/wisdom/${orb.imagePath}
+                imagePath: `https://hijaz.github.io/wisdom/${orb.imagePath}`
             }; // Store metadata
 
             return sphere;
