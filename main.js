@@ -275,7 +275,7 @@ function onMouseMove(event) {
     if (event.touches) {
         const touch = event.touches[0];
         mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(touch        .clientY / window.innerHeight) * 2 + 1;
+        mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
     } else {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -341,15 +341,17 @@ function populateLogModal() {
 // Populate about modal with project information and instructions
 function populateAboutModal() {
     aboutModal.innerHTML = `
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Wisdom</h2>
-            <p>This project visualizes thousands of suggestions from over 1200 productivity and self-improvement books in a 3D map based on their similarity.</p>
-            <h3>How to Use</h3>
-            <p><strong>Fly Mode:</strong> The camera automatically navigates through the orbs, focusing on different pieces of advice every 15 seconds.</p>
-            <p><strong>Explore Mode:</strong> You can manually navigate the 3D space. Click and drag to rotate the view. Use the zoom in/out buttons to adjust the view.</p>
-            <p><strong>Log:</strong> Opens a modal displaying all unique pieces of advice you have encountered so far.</p>
-        </div>
+<div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Wisdom</h2>
+    <p>This project visualizes thousands of insights from over 1,200 productivity and self-improvement books in a detailed 3D map. Similar suggestions are grouped together for easier exploration.</p>
+    <h3>How to Use</h3>
+    <p><strong>Fly Mode:</strong> The camera will automatically navigate through the orbs for you.</p>
+        <p><strong>Explore Mode:</strong> You can manually navigate the 3D space. Click and drag to rotate the view, and use the zoom in/out buttons to adjust your perspective.</p>
+    <p><strong>Log:</strong> Opens a modal displaying all the unique pieces of guidance you have come across so far.</p>
+    <p>On desktop, hover over an orb to see the associated tip. On mobile, tap the orb to view the tip.</p>
+    <p>Created by <a href="https://hassanijaz.com" target="_blank">Hassan Ijaz</a></p>
+</div>
     `;
 }
 
@@ -378,4 +380,5 @@ function animate() {
 
 populateAboutModal();
 animate();
+
 
