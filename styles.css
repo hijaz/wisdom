@@ -126,8 +126,10 @@ button:disabled {
 }
 
 .close {
+    position: fixed;
+    top: 10px;
+    right: 10px;
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
 }

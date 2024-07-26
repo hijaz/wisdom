@@ -17,8 +17,6 @@ const metadataDiv = document.getElementById('metadata');
 const logModal = document.getElementById('logModal');
 const logContent = document.getElementById('logContent');
 const aboutModal = document.getElementById('aboutModal');
-const closeLogSpan = document.getElementsByClassName('close')[0];
-const closeAboutSpan = document.getElementsByClassName('close')[1];
 
 let isFlyMode = true; // Default to fly mode
 let currentTargetOrb = null;
@@ -82,12 +80,15 @@ function initializeEventListeners() {
         aboutModal.style.display = 'block';
     });
 
-    closeLogSpan.addEventListener('click', function () {
-        logModal.style.display = 'none';
-    });
-
-    closeAboutSpan.addEventListener('click', function () {
-        aboutModal.style.display = 'none';
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('close')) {
+            if (event.target.parentElement.parentElement === logModal) {
+                logModal.style.display = 'none';
+            }
+            if (event.target.parentElement.parentElement === aboutModal) {
+                aboutModal.style.display = 'none';
+            }
+        }
     });
 
     window.addEventListener('click', function (event) {
@@ -274,7 +275,7 @@ function onMouseMove(event) {
     if (event.touches) {
         const touch = event.touches[0];
         mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+        mouse.y = -(touch        .clientY / window.innerHeight) * 2 + 1;
     } else {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -377,3 +378,4 @@ function animate() {
 
 populateAboutModal();
 animate();
+
