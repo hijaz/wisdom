@@ -171,8 +171,7 @@ button:disabled {
     #aboutButton { right: 5px; top: 5px; }
     #metadata {
         width: 90%;
-        left: 5%;
-        bottom: 55px;
+        bottom: 100px;
     }
     .modal-content {
         width: 95%;

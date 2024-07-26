@@ -375,11 +375,11 @@ function populateAboutModal() {
 <div class="modal-content about-modal-content">
     <span class="close">&times;</span>
     <h2>Wisdom</h2>
-    <p>This project visualizes thousands of insights from over 1,200 productivity and self-improvement books in a detailed 3D map. Similar suggestions are grouped together for easier exploration.</p>
+    <p>This project uses the text-embedding-3-large model from openAi to visualize thousands of insights from over 1,200 productivity and self-improvement books projected in 3D space, such that similar suggestions tend to cluster together for easier exploration. It's best viewed on larger screens with a mouse.</p>
     <h3>How to Use</h3>
-    <p><strong>Fly Mode:</strong> The camera will automatically navigate through the orbs for you.</p>
-    <p><strong>Explore Mode:</strong> You can manually navigate the 3D space. Click and drag to rotate the view, and use the zoom in/out buttons to adjust your perspective.</p>
-    <p><strong>Log:</strong> Opens a modal displaying all the unique pieces of guidance you have come across so far.</p>
+    <p><strong>Fly Mode</strong> The camera will automatically navigate through the orbs for you.</p>
+    <p><strong>Explore Mode</strong> You can manually navigate the 3D space. Click and drag to rotate the view, and use the zoom in/out buttons to adjust your perspective.</p>
+    <p><strong>Log</strong> Opens a modal displaying all the unique pieces of guidance you have come across so far.</p>
     <p>On desktop, hover over an orb to see the associated tip. On mobile, tap the orb to view the tip.</p>
     <p>Created by <a href="https://hassanijaz.com" target="_blank">Hassan Ijaz</a></p>
     <hr class="separator">
