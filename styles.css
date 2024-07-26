@@ -51,13 +51,13 @@ button:disabled {
 #flyModeButton { left: 10px; top: 10px; }
 #exploreModeButton { left: 10px; top: 50px; }
 #zoomInButton { left: 10px; top: 90px; }
-#zoomOutButton { left: 10px; top: 130px; }
-#logButton { right: 10px; top: 10px; }
-#aboutButton { right: 10px; top: 50px; }
+#zoomOutButton { left: 60px; top: 90px; }
+#logButton { left: 10px; bottom: 50px; }
+#aboutButton { right: 10px; top: 10px; }
 
 #metadata {
     position: absolute;
-    bottom: 10px;
+    bottom: 102px; /* Adjust to be above the log button */
     left: 10px;
     width: 300px;
     padding: 10px;

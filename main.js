@@ -47,6 +47,8 @@ function initializeEventListeners() {
         isFlyMode = true;
         flyModeButton.disabled = true;
         exploreModeButton.disabled = false;
+        zoomInButton.style.display = 'none';
+        zoomOutButton.style.display = 'none';
         startFlyMode();
     });
 
@@ -54,6 +56,8 @@ function initializeEventListeners() {
         isFlyMode = false;
         flyModeButton.disabled = false;
         exploreModeButton.disabled = true;
+        zoomInButton.style.display = 'block';
+        zoomOutButton.style.display = 'block';
         startExploreMode();
     });
 
@@ -122,11 +126,7 @@ fetch('orbs_data_with_colors.json')
 
         initializeEventListeners();
 
-        if (isFlyMode) {
-            startFlyMode();
-        } else {
-            startExploreMode();
-        }
+        startFlyMode();
     });
 
 // Add ambient light
@@ -256,7 +256,7 @@ function populateLogModal() {
             <div class="metadata-item">
                 <img src="${data.imageUrl}" alt="Book Cover">
                 <div class="text">
-                    <div class="advice">${data                    .sentence}</div>
+                    <div class="advice">${data.sentence}</div>
                     <div class="book-title">${data.title}</div>
                     <div class="author">${data.author}</div>
                 </div>
@@ -275,7 +275,7 @@ function populateAboutModal() {
             <h2>Wisdom</h2>
             <p>This project visualizes thousands of suggestions from over 1200 productivity and self-improvement books in a 3D map based on their similarity.</p>
             <h3>How to Use</h3>
-            <p><strong>Fly Mode:</strong> The camera automatically navigates through the orbs, focusing on different pieces of advice every 30 seconds.</p>
+            <p><strong>Fly Mode:</strong> The camera automatically navigates through the orbs             , focusing on different pieces of advice every 30 seconds.</p>
             <p><strong>Explore Mode:</strong> You can manually navigate the 3D space. Click and drag to rotate the view. Use the zoom in/out buttons to adjust the view.</p>
             <p><strong>Log:</strong> Opens a modal displaying all unique pieces of advice you have encountered so far.</p>
         </div>
