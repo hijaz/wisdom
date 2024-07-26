@@ -319,11 +319,23 @@ function updateMetadataDisplay() {
     `;
 }
 
-// Populate log modal with all unique metadata
+// Function to populate virtualized log modal
 function populateLogModal() {
-    let logHTML = '';
-    metadataArray.slice().reverse().forEach(data => {
-        logHTML += `
+    const logContent = document.getElementById('logContent');
+    logContent.innerHTML = ''; // Clear existing content
+
+    const virtualItems = metadataArray.slice().reverse();
+    const itemHeight = 100; // Adjust based on your item height
+
+    logContent.style.height = `${virtualItems.length * itemHeight}px`;
+
+    console.log("Populating log modal with items:", virtualItems.length); // Debug log
+
+    virtualItems.forEach((data, index) => {
+        const item = document.createElement('div');
+        item.className = 'virtualized-item';
+        item.style.top = `${index * itemHeight}px`; // Adjust based on your item height
+        item.innerHTML = `
             <div class="metadata-item">
                 <img src="${data.imageUrl}" alt="Book Cover">
                 <div class="text">
@@ -332,22 +344,41 @@ function populateLogModal() {
                     <div class="author">${data.author}</div>
                 </div>
             </div>
-            <hr>
         `;
+        logContent.appendChild(item);
+
+        console.log("Added item to log modal:", data); // Debug log
     });
-    logContent.innerHTML = logHTML;
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.visibility = 'visible';
+                console.log("Item is visible:", entry.target); // Debug log
+            } else {
+                entry.target.style.visibility = 'hidden';
+            }
+        });
+    }, {
+        root: logContent,
+        threshold: 0.1
+    });
+
+    document.querySelectorAll('.virtualized-item').forEach(item => observer.observe(item));
 }
+
+
 
 // Populate about modal with project information and instructions
 function populateAboutModal() {
     aboutModal.innerHTML = `
-<div class="modal-content">
+<div class="modal-content about-modal-content">
     <span class="close">&times;</span>
     <h2>Wisdom</h2>
     <p>This project visualizes thousands of insights from over 1,200 productivity and self-improvement books in a detailed 3D map. Similar suggestions are grouped together for easier exploration.</p>
     <h3>How to Use</h3>
     <p><strong>Fly Mode:</strong> The camera will automatically navigate through the orbs for you.</p>
-        <p><strong>Explore Mode:</strong> You can manually navigate the 3D space. Click and drag to rotate the view, and use the zoom in/out buttons to adjust your perspective.</p>
+    <p><strong>Explore Mode:</strong> You can manually navigate the 3D space. Click and drag to rotate the view, and use the zoom in/out buttons to adjust your perspective.</p>
     <p><strong>Log:</strong> Opens a modal displaying all the unique pieces of guidance you have come across so far.</p>
     <p>On desktop, hover over an orb to see the associated tip. On mobile, tap the orb to view the tip.</p>
     <p>Created by <a href="https://hassanijaz.com" target="_blank">Hassan Ijaz</a></p>

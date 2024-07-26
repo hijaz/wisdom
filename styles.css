@@ -35,7 +35,7 @@ button {
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #007BFF;
+    background-color: #28a745; /* Attractive green color */
     border: none;
     border-radius: 5px;
     color: white;
@@ -48,7 +48,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #218838; /* Slightly darker green on hover */
 }
 
 button:disabled {
@@ -69,8 +69,8 @@ button:disabled {
     left: 10px;
     width: 300px;
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.75);
-    color: #ffffff;
+    background-color: #ffffff; /* White background */
+    color: #000000; /* Black text */
     font-size: 16px;
     display: none;
     z-index: 2;
@@ -91,23 +91,29 @@ button:disabled {
 .metadata-item .text {
     display: flex;
     flex-direction: column;
+    font-family: 'Arial', sans-serif; /* Match with about modal font */
+    color: #000000; /* Ensure text is black */
 }
 
 .metadata-item .text .advice {
-    font-weight: bold;
-    font-family: 'Georgia', serif;
+    font-family: 'Arial', sans-serif; /* Match with about modal font */
+    color: #000000; /* Ensure text is black */
+    font-weight: bold; /* Make advice bold */
+    font-size: 18px; /* Increase font size for advice */
 }
 
 .metadata-item .text .book-title {
-    font-style: italic;
-    font-family: 'Times New Roman', serif;
-    margin-top: 5px;
+    font-family: 'Arial', sans-serif; /* Match with about modal font */
+    color: #000000; /* Ensure text is black */
+    font-style: italic; /* Italicize book title */
+    font-size: 14px; /* Smaller font size for book title */
 }
 
 .metadata-item .text .author {
-    font-style: italic;
-    font-family: 'Times New Roman', serif;
-    margin-top: 5px;
+    font-family: 'Arial', sans-serif; /* Match with about modal font */
+    color: #000000; /* Ensure text is black */
+    font-style: italic; /* Italicize author */
+    font-size: 14px; /* Smaller font size for author */
 }
 
 .modal {
@@ -169,4 +175,44 @@ button:disabled {
     .modal-content {
         width: 95%;
     }
+}
+
+/* Add a container for virtualized items */
+#logContent {
+    max-height: 70vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.virtualized-item {
+    height: 100px; /* Adjust based on your item height */
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* About modal content font */
+.about-modal-content {
+    font-family: 'Arial', sans-serif; /* Replace with the desired font */
+    color: #333;
+}
+
+.metadata-item .text {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Arial', sans-serif; /* Match with about modal font */
+}
+
+.metadata-item .text .advice,
+.metadata-item .text .book-title,
+.metadata-item .text .author {
+    font-family: 'Arial', sans-serif; /* Match with about modal font */
+    color: #000000; /* Ensure text is black */
+}
+
+/* Ensure log modal matches the font styling */
+#logContent .metadata-item .text {
+    font-family: 'Arial', sans-serif; /* Match with about modal font */
+    color: #000000; /* Ensure text is black */
 }
